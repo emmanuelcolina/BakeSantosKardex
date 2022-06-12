@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="plantilla/template :: head">
+</head>
+<body>
+	<header th:replace="plantilla/template :: header"></header>
+
+	<div class="container">	
+            <div th:classappend="'alert-' + (${clase != null} ? ${clase} : info)" th:if="${mensaje != null}"
+                th:text="${mensaje}"
+                class="alert">
+           </div>
+            <h1 th:text="${titulo}"></h1>
+            <form th:object="${producto}" th:action="@{/vender/agregar}" method="post">
+                <div class="form-group">
+                    <label for="codigo">Código de barras (Preciona ENTER una vez introducido el codigo del producto)</label>
+                    <input autofocus autocomplete="off" th:field="*{cod}" id="codigo"
+                           placeholder="Inserte el Código de Barras y PRESIONA ENTER"
+                           type="text"
+                           class="form-control" th:classappend="${#fields.hasErrors('cod')} ? 'is-invalid' : ''">
+                    <div class="invalid-feedback" th:errors="*{cod}"></div>
+
+                </div>
+            </form>
+
+            <form class="mb-2" th:action="@{/vender/terminar}" method="post">
+                <button type="submit" class="btn btn-success">Vender
+                </button>
+                <a th:href="@{/vender/limpiar}" class="btn btn-danger">Cancelar
+                </a>
+            </form>
+	</div>
+
+	<div class="container">
+		
+            <h1 th:text="${'Total: ' + total}"></h1>
+            <div class="table-responsive">
+                <table class="table table-bordered">
+                    <thead class="thead-dark">
+                    <tr>
+                        <th>Nombre</th>
+                        <th>Código</th>
+                        <th>Precio</th>
+                        <th>Cantidad</th>
+                        <th>Total</th>
+                        <th>Quitar de lista</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="producto, iterador : ${session.carrito}">
+                        <td th:text="${producto.name}"></td>
+                        <td th:text="${producto.cod}"></td>
+                        <td th:text="${producto.price}"></td>
+                        <td th:text="${producto.cantidad}"></td>
+                        <td th:text="${producto.total}"></td>
+                        <td>
+                            <form th:action="@{/vender/quitar/} + ${iterador.index}" method="post">
+                                <button type="submit" class="btn btn-danger">Eliminar
+                                </button>
+                            </form>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+	</div>
+
+	<footer th:replace="plantilla/template :: footer"></footer>
+
+</body>
+</html>

@@ -1,0 +1,2 @@
+INSERT INTO `users` VALUES (1,'admin','$2a$10$OyTQIa6taWSIRxMAr2o.Zes2gKQV4zKbtkoIeV4AP5C7phMcB0Nou',1);
+INSERT INTO `roles` VALUES (1,1,'ROLE_ADMIN');

@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="plantilla/template :: head">
+</head>
+<body>
+	<header th:replace="plantilla/template :: header"></header>
+
+	<div class="container">	
+            <div th:classappend="'alert-' + (${clase != null} ? ${clase} : info)" th:if="${mensaje != null}"
+                th:text="${mensaje}"
+                class="alert">
+           </div>
+            <h1 th:text="${titulo}"></h1>
+	</div>
+
+	<div class="container">
+            
+            <div class="table-responsive">
+               <table class="table table-bordered">
+                   <thead>
+                   <tr>
+                       <th>Fecha</th>
+                       <th>Total</th>
+                       <th>Productos</th>
+                   </tr>
+                   </thead>
+                   <tbody>
+                   <tr th:each="venta : ${ventas}">
+                       <td th:text="${venta.date}"></td>
+                       <td th:text="${venta.total}"></td>
+                       <td>
+                           <table class="table table-bordered">
+                               <thead>
+                               <tr>
+                                   <th>Nombre</th>
+                                   <th>Código de barras</th>
+                                   <th>Cantidad vendida</th>
+                                   <th>Precio</th>
+                                   <th>Total</th>
+                               </tr>
+                               </thead>
+                               <tbody>
+                               <tr th:each="producto : ${venta.productos}">
+                                   <td th:text="${producto.name}"></td>
+                                   <td th:text="${producto.cod}"></td>
+                                   <td th:text="${producto.cant}"></td>
+                                   <td th:text="${producto.price}"></td>
+                                   <td th:text="${producto.total}"></td>
+                               </tr>
+                               </tbody>
+                           </table>
+                       </td>
+                   </tr>
+                   </tbody>
+               </table>
+           </div>
+            
+	</div>
+
+	<footer th:replace="plantilla/template :: footer"></footer>
+
+</body>
+</html>
